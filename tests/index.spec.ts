@@ -24,8 +24,8 @@ describe('axios-opentracing', () => {
     beforeEach(() => {
       applyTracingInterceptors = createAxiosTracing();
       axiosInstance = axios.create({
-          baseURL: 'https://example.com'
-        });
+        baseURL: 'https://example.com'
+      });
     });
 
     it('should throw an error when no axios instance passed', () => {

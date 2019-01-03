@@ -62,6 +62,11 @@ function createRequestInterceptor(Tracer: ITracer, rootSpan: ISpan) {
  *
  * @return {Promise<IAxiosOpentracingError>} Promise reject with axios error
  */
+/**
+ * Ignoring due to incorrect work with request error interceptors in axios
+ * See: https://github.com/axios/axios/issues/1556
+ */
+/* istanbul ignore next */
 function requestErrorInterceptor(error: IAxiosOpentracingError) {
   if (error.config) {
     const { span } = error.config;
