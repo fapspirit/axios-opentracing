@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Axios interceptor which traces your requests",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "repository": "https://github.com/fapspirit/axios-opentracing",
   "author": "Fedorov Anton <fapspirit@gmail.com> (https://github.com/fapspirit)",
   "license": "MIT",
