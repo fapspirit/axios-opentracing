@@ -7,7 +7,7 @@ Axios interceptor which traces your requests 👀
 
 ## Motivation
 Using opentracing in node.js is kinda hard because you need to keep context of current request.
-This package can help you abstract tracing logic for your http calls with axios interceptors.
+This package helps you to abstract tracing logic for your http calls with axios interceptors.
 
 ## Installation
 To use this package, you need to have [axios](https://github.com/axios/axios) and [opentracing](https://github.com/opentracing/opentracing-javascript):
@@ -21,10 +21,10 @@ Or with npm:
 npm install axios opentracing axios-opentracing
 ```
 
-And you also need any APM agent of your choice ([Jaeger](https://github.com/jaegertracing/jaeger-client-node), [Elastic APM](https://github.com/elastic/apm-agent-nodejs), [Lightstep](https://github.com/lightstep/lightstep-tracer-javascript), etc.) or your own implementation if it [compatible with Opentracing API](https://github.com/opentracing/opentracing-javascript#opentracing-tracer-implementations).
+And you also need any APM agent of your choice ([Jaeger](https://github.com/jaegertracing/jaeger-client-node), [Elastic APM](https://github.com/elastic/apm-agent-nodejs), [Lightstep](https://github.com/lightstep/lightstep-tracer-javascript), etc.) or your own implementation if it is [compatible with Opentracing API](https://github.com/opentracing/opentracing-javascript#opentracing-tracer-implementations).
 
 ## Usage
-This package contains one function-intializer that take tracer as argument and produces function-wrapper which will wrap your axios instace with interceptors:
+This package contains one function-intializer that take your tracer as an argument and produces function-wrapper which will wrap your axios instance with interceptors:
 ```js
 const createAxiosTracing = require('axios-opentracing');
 
@@ -53,10 +53,10 @@ const axiosTracingOptions = {
 };
 ```
 
-Either `span` or `spanName` are required. If you pass `span` then all the spans for your requests will be inhereted from passed one. If you pass `spanName` then new span with passed name will be created and threated as root span. If you path both then passed `span` will be used. The wrapper returns span that was used (passed or created).
+Either `span` or `spanName` are required. If you pass `span` then all the spans for your requests will be inherited from the passed one. If you pass `spanName` then the new span with passed name will be created and used as a root span. If you pass both then passed `span` will be used. The wrapper returns span that was used (passed or created).
 
 ## Example
-You can use any tracer you want, in this examples I will use Jaeger.
+You can use any tracer, in this examples I will use Jaeger.
 
 ### Simple
 
@@ -133,7 +133,7 @@ app.get('/some/path', (req, res) => {
 });
 ```
 
-The tricky part is that you need to create axios instance on every request that your server handles because we need to keep context. This problem can be solved simply by creating middleware which will produce axios instances and pass it to your handlers through request context:
+The tricky part is that you need to create an axios instance on every request that your server handles because we need to keep context. This problem can be solved simply by creating middleware which will produce axios instances and pass it to your handlers through request context:
 
 ```js
 // using global tracer
@@ -159,7 +159,7 @@ app.get('/some/path', (req, res) => {
 ```
 
 ### Isomorphic applications with SSR (React, Vue, etc.)
-If you want trace requests that makes your application while SSR, axios-opentracing can help you with that. Similary as in express example, axios inatance might be initialized and passed to application context and used in application as regular axios instance wherever you want. Just setup common interface for client and server so your logic implementation will not depend on the environment.
+axios-opentracing can be used to trace requests that your application makes while using SSR. As in express example, an axios instance can be initialized and passed to an application context and used in an application as a regular axios instance wherever you want. Just setup a common interface for a client and a server so that your logic implementation does not depend on the environment.
 
 ## Contributing
 PRs are welcome!
