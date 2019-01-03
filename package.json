@@ -1,6 +1,6 @@
 {
   "name": "axios-opentracing",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Axios interceptor which traces your requests",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -15,6 +15,7 @@
     "tracing"
   ],
   "scripts": {
+    "prepublish": "npm run build",
     "lint": "tslint -t msbuild -c tslint.json 'src/**/*.ts'",
     "test": "nyc mocha --require ts-node/register --require source-map-support/register tests/**/*.spec.ts",
     "build": "tsc -p .",
