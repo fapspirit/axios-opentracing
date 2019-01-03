@@ -1,6 +1,6 @@
 {
   "name": "axios-opentracing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Axios interceptor which traces your requests",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
