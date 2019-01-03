@@ -24,8 +24,8 @@ export interface IAxiosOpentracingResponse extends IAxiosResponse {
 }
 
 /**
- * Factory for request interceptors. Produces interceptor which creates tracing span for request.
- * Span are created on every request. Span contains information about request as tags.
+ * Factory for request interceptors. Produces interceptor which creates a tracing span for a request.
+ * Spans are created on every request. Span contains information about request as tags.
  *
  * @param {ITracer} Tracer — tracer instance
  * @param {ISpan} rootSpan — span wich will be used as root
@@ -54,7 +54,7 @@ function createRequestInterceptor(Tracer: ITracer, rootSpan: ISpan) {
  }
 
 /**
- * Handler for request error interceptor. Marks span with error and finishes him.
+ * Handler for request error interceptor. Marks span with error and finishes it.
  *
  * @param {IAxiosOpentracingError} error - Axios error
  * @param {IAxiosOpentracingRequestConfig} error.config - request config
@@ -75,7 +75,7 @@ function requestErrorInterceptor(error: IAxiosOpentracingError) {
 }
 
 /**
- * Handler for response success interceptor. Marks span with code and finishes him.
+ * Handler for response success interceptor. Marks span with code and finishes it.
  *
  * @param {IAxiosOpentracingResponse} response - Axios response
  * @param {IAxiosOpentracingRequestConfig} response.config - request config
@@ -95,7 +95,7 @@ function responseSuccessInterceptor(response: IAxiosOpentracingResponse) {
 }
 
 /**
- * Handler for response error interceptor. Marks span with error and code and finishes him.
+ * Handler for response error interceptor. Marks span with error and code and finishes it.
  *
  * @param {IAxiosOpentracingError} error - Axios error
  * @param {IAxiosOpentracingRequestConfig} error.config - request config
@@ -132,7 +132,7 @@ export default function createAxiosTracing(Tracer: ITracer = globalTracer()) {
    * @param {ISpan} instanceOptions.span — root span, from which inherits child spans
    * @param {String} instanceOptions.spanName — name for root span
    *
-   * @return {Span} root span that was used for child spans
+   * @return {Span} root span that is used for child spans
    */
   return function applyTracingInterceptors(axiosInstance: IAxiosInstance, instanceOptions: IOptions = {}): ISpan {
     const { spanName, span } = instanceOptions;
