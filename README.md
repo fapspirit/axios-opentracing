@@ -1,4 +1,8 @@
 # axios-opentracing
+[![Build Status](https://travis-ci.com/fapspirit/axios-opentracing.svg?branch=master)](https://travis-ci.com/fapspirit/axios-opentracing)
+[![Coverage Status](https://coveralls.io/repos/fapspirit/axios-opentracing/badge.svg?branch=)](https://coveralls.io/r/fapspirit/axios-opentracing?branch=master)
+[![NPM version](https://img.shields.io/npm/v/axios-opentracing.svg)](https://www.npmjs.com/package/axios-opentracing)
+
 Axios interceptor which traces your requests 👀
 
 ## Motivation
