@@ -72,7 +72,7 @@ const tracer = initTracer(tracingConfig, tracingOptions);
 const applyTracingInterceptors = createAxiosTracing(tracer);
 
 // Create root span
-const rootSpan = tracer.createSpan('api_http_call');
+const rootSpan = tracer.startSpan('api_http_call');
 
 // Setup an axios instance
 const API = axios.create({
@@ -80,7 +80,7 @@ const API = axios.create({
 });
 
 // Setup tracing interceptors
-applyTracingInterceptors(API, { rootSpan });
+applyTracingInterceptors(API, { span: rootSpan });
 
 // Make some requests
 Promise.all([
