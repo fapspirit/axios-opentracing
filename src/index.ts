@@ -2,9 +2,15 @@ import {
   AxiosError as IAxiosError,
   AxiosInstance as IAxiosInstance,
   AxiosRequestConfig as IAxiosRequestConfig,
-  AxiosResponse as IAxiosResponse
+  AxiosResponse as IAxiosResponse,
 } from 'axios';
-import { FORMAT_HTTP_HEADERS, globalTracer, Span as ISpan, Tags, Tracer as ITracer } from 'opentracing';
+import {
+  FORMAT_HTTP_HEADERS,
+  globalTracer,
+  Span as ISpan,
+  Tags,
+  Tracer as ITracer,
+} from 'opentracing';
 
 export interface IOptions {
   spanName?: string;
@@ -33,25 +39,32 @@ export interface IAxiosOpentracingResponse extends IAxiosResponse {
  * @return {Function<IAxiosOpentracingRequestConfig>} axios request interceptor
  */
 function createRequestInterceptor(Tracer: ITracer, rootSpan: ISpan) {
-   return function axiosOpentracingRequestInterceptor(config: IAxiosRequestConfig) {
-     const modifiedConfig = config as IAxiosOpentracingRequestConfig;
+  return function axiosOpentracingRequestInterceptor(
+    config: IAxiosRequestConfig
+  ) {
+    const modifiedConfig = config as IAxiosOpentracingRequestConfig;
 
-     try {
-       const span = Tracer.startSpan(`${config.method}: ${config.baseURL}${config.url}`, {
-         childOf: rootSpan
-       });
+    try {
+      const span = Tracer.startSpan(
+        `${config.method}: ${config.baseURL ? config.baseURL : ''}${
+          config.url
+        }`,
+        {
+          childOf: rootSpan,
+        }
+      );
 
-       span.setTag(Tags.HTTP_METHOD, config.method);
-       span.setTag(Tags.HTTP_URL, config.url);
-       span.setTag(Tags.SPAN_KIND, Tags.SPAN_KIND_RPC_CLIENT);
-       Tracer.inject(span, FORMAT_HTTP_HEADERS, config.headers);
+      span.setTag(Tags.HTTP_METHOD, config.method);
+      span.setTag(Tags.HTTP_URL, config.url);
+      span.setTag(Tags.SPAN_KIND, Tags.SPAN_KIND_RPC_CLIENT);
+      Tracer.inject(span, FORMAT_HTTP_HEADERS, config.headers);
 
-       modifiedConfig.span = span;
-     } catch (e) {}
+      modifiedConfig.span = span;
+    } catch (e) {}
 
-     return modifiedConfig;
-   };
- }
+    return modifiedConfig;
+  };
+}
 
 /**
  * Handler for request error interceptor. Marks span with error and finishes it.
@@ -139,14 +152,21 @@ export default function createAxiosTracing(Tracer: ITracer = globalTracer()) {
    *
    * @return {Span} root span that is used for child spans
    */
-  return function applyTracingInterceptors(axiosInstance: IAxiosInstance, instanceOptions: IOptions = {}): ISpan {
+  return function applyTracingInterceptors(
+    axiosInstance: IAxiosInstance,
+    instanceOptions: IOptions = {}
+  ): ISpan {
     const { spanName, span } = instanceOptions;
     if (!axiosInstance) {
-      throw new TypeError('axios-opentracing: axios or axios instance required!');
+      throw new TypeError(
+        'axios-opentracing: axios or axios instance required!'
+      );
     }
 
-    if (!instanceOptions || !spanName && !span) {
-      throw new TypeError('axios-opentracing: either span or spanName should be passed in options!');
+    if (!instanceOptions || (!spanName && !span)) {
+      throw new TypeError(
+        'axios-opentracing: either span or spanName should be passed in options!'
+      );
     }
 
     const rootSpan = span || Tracer.startSpan(spanName);
