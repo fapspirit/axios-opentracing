@@ -35,14 +35,15 @@ export interface IAxiosOpentracingResponse extends IAxiosResponse {
 function createRequestInterceptor(Tracer: ITracer, rootSpan: ISpan) {
    return function axiosOpentracingRequestInterceptor(config: IAxiosRequestConfig) {
      const modifiedConfig = config as IAxiosOpentracingRequestConfig;
+     const fullURL = `${config.baseURL}${config.url}`;
 
      try {
-       const span = Tracer.startSpan(`${config.method}: ${config.baseURL}${config.url}`, {
+       const span = Tracer.startSpan(`${config.method}: ${fullURL}`, {
          childOf: rootSpan
        });
 
        span.setTag(Tags.HTTP_METHOD, config.method);
-       span.setTag(Tags.HTTP_URL, config.url);
+       span.setTag(Tags.HTTP_URL, fullURL);
        span.setTag(Tags.SPAN_KIND, Tags.SPAN_KIND_RPC_CLIENT);
        Tracer.inject(span, FORMAT_HTTP_HEADERS, config.headers);
 
